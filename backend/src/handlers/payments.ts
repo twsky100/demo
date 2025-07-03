@@ -28,8 +28,21 @@ export default function mountPaymentsEndpoints(router: Router) {
       return res.status(400).json({ message: "Order not found" });
     }
 
-    // check the transaction on the Pi blockchain
-    const horizonResponse = await axios.create({ timeout: 20000 }).get(txURL);
+    // check the transaction on the Pi blockchain if a transaction URL is
+    // available. In some edge cases the Pi SDK might report an incomplete
+    // payment that does not yet contain a transaction object. In that case
+    // the transaction cannot be verified and we should return an error early.
+    if (!txURL) {
+      return res.status(400).json({ message: "Missing transaction URL" });
+    }
+
+    let horizonResponse;
+    try {
+      horizonResponse = await axios.create({ timeout: 20000 }).get(txURL);
+    } catch (err) {
+      console.error('Failed to fetch transaction', err);
+      return res.status(500).json({ message: 'Failed to verify transaction' });
+    }
     const paymentIdOnBlock = horizonResponse.data.memo;
 
     // and check other data as well e.g. amount
