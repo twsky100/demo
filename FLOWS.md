@@ -170,7 +170,7 @@ const onReadyForServerCompletion = (paymentId: string, txid: string) => {
 };
 ```
 
-On the backend side of your app make an API call to Pi Platform `POST /payments/:paymentId/approve` to let Pi Servers know that payment has been completed.
+On the backend side of your app make an API call to Pi Platform `POST /payments/:paymentId/complete` to let Pi Servers know that payment has been completed.
 
 ```typescript
 // backend/src/index.ts
