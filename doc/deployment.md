@@ -87,7 +87,7 @@ This will bring you to the App Dashboard, from this screen you can continue the 
 
 ### 4. Set up environment variables (1/3)
 
-Create a .env config file in order to enable docker-compose to pick up your environmnent variables:
+Create a .env config file in order to enable docker-compose to pick up your environment variables:
 
 ```shell
 # Move to the app's directory:
